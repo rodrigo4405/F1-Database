@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block main %}
+    <h3 class="result-main-title">Results for {{ search }}</h2>
+    <div class="result">
+        <div class="result-block" id="result-block-drivers">
+            <h3 class="search-title">Drivers</h3>
+            <ul>
+            {% for row in driver_query %}
+                {% set country = get_country(row[0]["nationality"]) %}
+                {% set flag_url = get_flag(country) %}
+
+                {% if flag_url == "https://flagcdn.com/ch.svg" %}
+                <li class="search-result" id="{{ row[0]['forename'] }}{{ row[0]['surname']  }}"><a href="/drivers?query={{ row[0]['driverRef'] }}"><span class="search-result">{{ row[0]["forename"] }} {{ row[0]["surname" ]}}</span></a><img class="result-flag" id="ch" src="{{ flag_url }}" alt="{{ flag_url }}"></li>
+                {% elif row[0]["nationality"] == "American-Italian" %}
+                <li class="search-result" id="{{ row[0]['forename'] }}{{ row[0]['surname']  }}"><a href="/drivers?query={{ row[0]['driverRef'] }}"><span class="search-result">{{ row[0]["forename"] }} {{ row[0]["surname" ]}}</span></a><img class="result-flag" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Flag_of_the_United_States_and_Italy.svg" alt="{{ flag_url }}"></li>
+                {% elif row[0]["nationality"] == "Argentine-Italian" %}
+                <li class="search-result" id="{{ row[0]['forename'] }}{{ row[0]['surname']  }}"><a href="/drivers?query={{ row[0]['driverRef'] }}"><span class="search-result">{{ row[0]["forename"] }} {{ row[0]["surname" ]}}</span></a><img class="result-flag" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHxVgkU3QyezTnrSJ2jDEnmWcnuHW0BzMavi93MRw0ig&s" alt="{{ flag_url }}"></li>
+                {% elif flag_url == "https://flagcdn.com/my.svg" %}
+                <li class="search-result" id="{{ row[0]['forename'] }}{{ row[0]['surname']  }}"><a href="/drivers?query={{ row[0]['driverRef'] }}"><span class="search-result">{{ row[0]["forename"] }} {{ row[0]["surname" ]}}</span></a><img class="result-flag" id="my" src="{{ flag_url }}" alt="{{ flag_url }}"></li>
+                {% elif flag_url == None %}
+                <li class="search-result" id="{{ row[0]['forename'] }}{{ row[0]['surname']  }}"><a href="/drivers?query={{ row[0]['driverRef'] }}"><span class="search-result">{{ row[0]["forename"] }} {{ row[0]["surname" ]}}</span></a><img class="result-flag" id="invalid" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxkBnQmSvPQCPc_1ZmPUmUKXj3PgyXb22gQ8kINQI8&s" alt="No official flag"></li>
+                {% else %}
+                <li class="search-result" id="{{ row[0]['forename'] }}{{ row[0]['surname']  }}"><a href="/drivers?query={{ row[0]['driverRef'] }}"><span class="search-result">{{ row[0]["forename"] }} {{ row[0]["surname" ]}}</span></a><img class="result-flag" src="{{ flag_url }}" alt="{{ flag_url }}"></li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="result-block-constructors-circuits">
+            <div class="result-block "id="result-block-constructors">
+                <h3 class="search-title">Constructors</h3>
+                <ul>
+                    {% for row in constructors_query %}
+                        {% set country = get_country(row[0]["nationality"]) %}
+                        {% set flag_url = get_flag(country) %}
+
+                        {% if flag_url == "https://flagcdn.com/ch.svg" %}
+                        <li class="search-result" id="{{ row[0]['name']  }}"><a href="/constructors?query={{ row[0]['constructorRef'] }}"><span class="search-result">{{ row[0]['name'] }}</span></a><img class="result-flag" id="ch" src="{{ flag_url }}" alt="{{ flag_url }}"></li>
+                        {% elif flag_url == "https://flagcdn.com/my.svg" %}
+                        <li class="search-result" id="{{ row[0]['name'] }}"><a href="/constructors?query={{ row[0]['constructorRef'] }}"><span class="search-result">{{ row[0]["name"] }}</span></a><img class="result-flag" id="my" src="{{ flag_url }}" alt="{{ flag_url }}"></li>
+                        {% elif flag_url == None %}
+                        <li class="search-result" id="{{ row[0]['name']  }}"><a href="/constructors?query={{ row[0]['constructorRef'] }}"><span class="search-result">{{ row[0]['name'] }}</span></a><img class="result-flag" id="invalid" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxkBnQmSvPQCPc_1ZmPUmUKXj3PgyXb22gQ8kINQI8&s" alt="No official flag"></li>
+                        {% else %}
+                        <li class="search-result" id="{{ row[0]['name'] }}"><a href="/constructors?query={{ row[0]['constructorRef'] }}"><span class="search-result">{{ row[0]['name'] }}</span></a><img class="result-flag" src="{{ flag_url }}" alt="{{ flag_url }}"></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="result-block "id="result-block-circuits">
+                <h3 class="search-title">Circuits</h3>
+                <ul>
+                    {% for row in circuits_query %}
+                        {% set flag_url = get_flag(row[0]["country"]) %}
+
+                        {% if flag_url == "https://flagcdn.com/ch.svg" %}
+                        <li class="search-result" id="{{ row[0]['name']  }}><a href="{{ row[0]['url'] }}" target="_blank"><span class="search-result">{{ row[0]['name'] }}</span></a><img class="result-flag" id="ch" src="{{ flag_url }}" alt="{{ flag_url }}"></li>
+                        {% elif flag_url == "https://flagcdn.com/my.svg" %}
+                        <li class="search-result" id="{{ row[0]['name'] }}"><a href="{{ row[0]['url'] }}" target="_blank"><span class="search-result">{{ row[0]['name'] }}</span></a><img class="result-flag" id="my" src="{{ flag_url }}" alt="{{ flag_url }}"></li>
+                        {% elif flag_url == None %}
+                        <li class="search-result" id="{{ row[0]['name']  }}"><a href="{{ row[0]['url'] }}" target="_blank"><span class="search-result">{{ row[0]['name'] }}</span></a><img class="result-flag" id="invalid" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxkBnQmSvPQCPc_1ZmPUmUKXj3PgyXb22gQ8kINQI8&s" alt="No official flag"></li>
+                        {% else %}
+                        <li class="search-result" id="{{ row[0]['name'] }}"><a href="{{ row[0]['url'] }}" target="_blank"><span class="search-result">{{ row[0]['name'] }}</span></a><img class="result-flag" src="{{ flag_url }}" alt="{{ flag_url }}"></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

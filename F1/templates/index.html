@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <link href="/static/homepage.css" rel="stylesheet">
+    <script src="/static/homepage.js"></script>
+{% endblock %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <h1 class="homepage-title">Drivers</h1>
+    <div class="arrows">
+        <button id="previous">⮜</button><button id="next">⮞</button>
+    </div>
+    <a id="image-button" href="/drivers"><button class="button-link"><span class="text">See all the drivers</span></button></a>
+
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Ferrari_Formula_1_lineup_at_the_N%C3%BCrburgring.jpg/1024px-Ferrari_Formula_1_lineup_at_the_N%C3%BCrburgring.jpg" style="display: none;">
+    <img src="https://maxvelocity.events/wp-content/uploads/2019/04/Circuit-de-Monaco-Monaco.jpg" style="display: none;">
+    <img src="https://www.goodwood.com/globalassets/.road--racing/race/historic/2020/4-april/most-successful-f1-teams/nine-most-successful-f1-teams-1-ferrari-f1-2008-barcelona-felipe-massa-ferrari-f2008-rainer-schlegelmilch-motorsport-images-goodwood-24042020.jpg?crop=(0,188,2600,1651)&width=1600" style="display: none;">
+{% endblock %}

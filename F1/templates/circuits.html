@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Circuits
+{% endblock %}
+
+{% block main %}
+    <div class="loading">
+        <img class="loading-gif" src="/static/loading.gif">
+        <p class="loading-message">Loading...</p>
+    </div>
+    <div style="text-align: left">
+        <p class="small-text" style="display: inline-block"><strong>* </strong>Length in kilometers</p>
+        <form class="checkbox-form" style="display: inline-block; margin-left: 50px; margin-bottom: 30px">
+            <label class="custom-checkbox" style="font-size: 14px;">
+                <input type="checkbox" id="checkbox">
+                <span class="checkmark"></span>
+                Show only the 2023 season tracks
+              </label>
+        </form>
+    </div>
+
+    <table class="table table-hover" id="table" data-toggle="table" data-sort-name="id" data-sort-order="asc">
+        <thead>
+            <tr>
+                <th data-field="id" data-sortable="true" id="id-toggle">ID</th>
+                <th data-field="track" data-sortable="false" id="track-toggle">Track Layout</th>
+                <th data-field="name" data-sortable="true" id="name-toggle">Name</th>
+                <th data-field="location" data-sortable="true" id="location-toggle">Location</th>
+                <th data-field="type" data-sortable="false" id="type-toggle">Type</th>
+                <th data-field="length" data-sortable="true" id="length-toggle">*Length</th>
+                <th data-field="link" data-sortable="false" id="link-toggle">Wikipedia</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for circuit in circuits %}
+            {% set track_image = get_layout(circuit["name"]) %}
+            <tr>
+                <td id="{{ circuit['circuitRef'] }}">{{ circuit["circuitID"]}}</td>
+                <td id="track"><a href="{{ track_image }}" target="_blank"><img class="track-image" src="{{ track_image }}" loading="lazy" alt="track layout"></a></td>
+                <td id="name">{{ circuit["name"] }}</td>
+                <td id="location">{{ circuit["location"] }}, {{ circuit["country"] }}</td>
+                <td id="type">{{ circuit["type"]}}</td>
+                <td id="length">{{ circuit["length"] }}</td>
+                <td id="link"><a href="{{ circuit['url'] }}" style="text-decoration: none">Link</a></td>
+                <td id="report">Report an error</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to Bootstrap Table CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+    <!-- Link to jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Link to Bootstrap Table JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#table').bootstrapTable();
+        });
+    </script>
+    <script>
+        const hash = window.location.hash;
+        if (hash && document.getElementById(hash.slice(1))) {
+        document.getElementById(hash.slice(1)).scrollIntoView();
+        document.getElementById(hash.slice(1)).style.backgroundColor = "yellow";
+        }
+    </script>
+
+{% endblock %}

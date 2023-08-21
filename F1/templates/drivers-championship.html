@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block head %}
+        <script src="/static/quiz.js"></script>
+        <script src="/static/autocomplete.js"></script>
+        <script>
+             var drivers = {{ drivers | tojson | safe }};
+        </script>
+{% endblock %}
+
+{% block title %}
+    Drivers Championship Quiz
+{% endblock %}
+
+{% block body %}
+
+    <div class="header" title="Drivers Championship Quiz">
+        <h1 class="report-title" style="color: black; text-align: center; margin: 0">
+            Drivers Championship Quiz
+        </h1>
+        <img src="https://media.formula1.com/image/upload/content/dam/fom-website/manual/Misc/Verstappenbacktobacktitles/verstappen-hero.jpg.transform/9col/image.jpg">
+        <p style="font-weight: bold; color: black; margin-left: 173px">From left to right: <a href="/drivers?query=senna" class="link">Ayrton Senna</a>, <a class="link" href="/drivers?query=schumacher">Michael Schumacher</a> and <a href="/drivers?query=max_verstappen" class="link">Max Verstappen</a></p>
+    </div>
+    <div title="Start the quiz" style="display: inline-block">
+        <button class="start">Start</button>
+    </div>
+    <div class="quiz" style="display: none">
+        <p class="time" id="time">--:--</p>
+        <form action="/quizzes/drivers-championship" method="post">
+            <div class="drivers-quiz-grid">
+                {% for year in years %}
+                <p class="year">{{ year }}</p>
+                <div>
+                    <input required type="text" class="{{ year }}" id="year" name="{{ year }}"{% if year != 1950 %} data-next-year="{{ year | int - 1 }}"{% else %} data-next-year="{{ year | int - 0 }}"{% endif %} maxlength="20" autocomplete="off" autofocus></input>
+                    <p class="correction" id="correction-{{ year }}"></p>
+                    <p class="suggestion-{{ year }}" id="suggestion" style="display: none">Did you mean <span id="suggestion-{{ year }}"></span>?</p>
+                </div>
+                {% endfor %}
+                </div>
+            <button id="check-button" type="submit">Check</button>
+        </form>
+    </div>
+{% endblock %}

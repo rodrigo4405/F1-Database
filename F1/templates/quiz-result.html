@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block head %}
+        <script src="/static/quiz.js"></script>
+{% endblock %}
+
+
+{% block title %}
+    Drivers Championship Quiz Result
+{% endblock %}
+
+{% block body %}
+
+    <div class="header">
+        <h1 class="report-title" style="color: black; text-align: center; margin: 0">
+            Drivers Championship Quiz
+        </h1>
+        <img src="https://media.formula1.com/image/upload/content/dam/fom-website/manual/Misc/Verstappenbacktobacktitles/verstappen-hero.jpg.transform/9col/image.jpg">
+    </div>
+    <div class="results">
+        <h2 class="correct-amount">You got {{ right_answers_amount }}/73 correct answers in </h2>
+        <h2 class="time-result"></h2>
+    </div>
+    <div class="quiz">
+        <form action="/quizzes/drivers-championship" method="post">
+            <div class="drivers-quiz-grid">
+                {% for year in years %}
+                <p class="year">{{ year }}</p>
+                <div>
+                    <input readonly {% if year not in right_answers %} class="wrong"{% elif year in right_answers %} class="right" {% endif %} type="text" id="year-{{ year }}" name="{{ year }}"{% if year != 1950 %} data-next-year="{{ year | int - 1 }}"{% else %} data-next-year="{{ year | int - 0 }}"{% endif %} minlength="3" maxlength="20" autocomplete="off" autofocus placeholder="{{ capitalize(inputs[year]) }}"></input>
+                    {% if year not in right_answers %}<p class="answer">Answer: {{ answers[2022 - year]["driver"] }}</p>{% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </form>
+        <p>{{ drivers }}</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <script src="/static/validate.js"></script>
+    <script src="/static/id.js"></script>
+{% endblock %}
+
+{% block title %}
+    Report
+{% endblock %}
+
+{% block main %}
+    <header>
+        <h2 class="report-title">Report an error</h2>
+    </header>
+    <form class="report-form" action="/report" method="post">
+        <div style="margin-bottom: 50px">
+            <label for="input">Correction: </label>
+            <input class="report-input" {% if "correction" in invalid_fields %}id="invalid-field"{% endif %} name="report-input" type="text" autofocus autocomplete="off">
+        </div>
+        <label for="form-1">Page* : </label>
+        <select class="select-report" id="form-1" name="page" onchange="showSelectedGroup()" {% if "page" in invalid_fields %}style="border: none; box-shadow: 0 0 5px 5px rgba(255,0,0,0.75);{% endif %}">
+            <option disabled selected></option>
+            <option class="option" id="drivers" value="drivers">Drivers</option>
+            <option class="option" id="constructors" value="constructors">Constructors</option>
+            <option class="option" id="circuits" value="circuits">Circuits</option>
+            <option class="option" id="seasons" value="seasons">Seasons</option>
+        </select>
+        <label for="form-2">Field: </label>
+        <select class="select-report" id="form-2" name="field" {% if "field" in invalid_fields %}style="border: none; box-shadow: 0 0 5px 5px rgba(255,0,0,0.75);"{% endif %}>
+            <option class="unselected" selected disabled></option>
+            <optgroup label="Drivers">
+                <option class="option" value="number">Number</option>
+                <option class="option" value="code">Code</option>
+                <option class="option" value="name">Name</option>
+                <option class="option" value="dob">Birthday</option>
+                <option class="option" value="nationality">Nationality</option>
+                <option class="option" value="link">Wikipedia</option>
+            </optgroup>
+            <optgroup label="Constructors">
+                <option class="option" value="name">Name</option>
+                <option class="option" value="first">First Entry</option>
+                <option class="option" value="last">Last Entry</option>
+                <option class="option" value="nationality">Nationality</option>
+                <option class="option" value="link">Wikipedia</option>
+            </optgroup>
+            <optgroup label="Circuits">
+                <option class="option" value="track">Track Layout</option>
+                <option class="option" value="name">Name</option>
+                <option class="option" value="location">Location</option>
+                <option class="option" value="type">Type</option>
+                <option class="option" value="length">Length</option>
+                <option class="option" value="link">Wikipedia</option>
+            </optgroup>
+            <optgroup label="Seasons">
+                <option class="option" value="driver">Driver</option>
+                <option class="option" value="name">Constructor (name)</option>
+                <option class="option" value="logo">Constructor (logo)</option>
+                <option class="option" value="link">Wikipedia</option>
+            </optgroup>
+        </select>
+        <label for="form-3">Row* : </label>
+        <input class="report-input" name="id" id="number-input" type="number" min="1" max="2022" placeholder="ID" {% if "id" in invalid_fields %}style="border: none; box-shadow: 0 0 5px 5px rgba(255,0,0,0.75);"{% endif %}>
+        <h6 class="small-text" style="margin-left: 785px; margin-top: 8px">
+            Year for seasons
+        </h6>
+        <div style="vertical-align: top">
+            <label for="feedback" style="margin-bottom: 105px">Additional feedback: </label>
+            <textarea placeholder="(optional)" class="report-input" name="feedback" id="feedback" type="text" automcomplete="off"></textarea>
+        </div>
+        <p class="small-text" style="margin-left: 30px; margin-top: 20px">
+            <b>* </b>Autoselected if you clicked a row link
+        </p>
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    </form>
+    <script>
+        function showSelectedGroup() {
+            const selectElement = document.getElementById("form-1");
+            const selectedPage = selectElement.value;
+            const optgroups = document.querySelectorAll("optgroup");
+            const unselected = document.querySelector('.unselected');
+
+            unselected.selected=true;
+
+            for (const optgroup of optgroups) {
+                if (optgroup.label.toLowerCase() === selectedPage) {
+                    optgroup.style.display = "block";
+                } else {
+                    optgroup.style.display = "none";
+                }
+            }
+        }
+    </script>
+
+    <script>
+        const form = document.querySelector('.report-form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            saveFormDataToSessionStorage();
+
+            form.submit();
+        });
+
+        function saveFormDataToSessionStorage() {
+            const formData = {
+                inputValue: document.querySelector('.report-input').value,
+                feedback: document.getElementById('feedback').value
+            };
+
+            sessionStorage.setItem('formData', JSON.stringify(formData));
+        }
+    </script>
+
+    <script>
+        window.onload = function () {
+            // Retrieve form data from session storage
+            const savedData = sessionStorage.getItem('formData');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                document.querySelector('.report-input').value = formData.inputValue;
+                document.getElementById('feedback').value = formData.feedback;
+            }
+        };
+    </script>
+
+
+{% endblock %}

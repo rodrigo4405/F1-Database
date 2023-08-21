@@ -1,0 +1,6 @@
+flask
+cs50
+requests
+fuzzywuzzy
+python-Levenshtein
+csv

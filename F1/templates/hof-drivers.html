@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <script src="/static/pages.js"></script>
+{% endblock %}
+
+{% block title %}
+    Hall of Fame - Drivers
+{% endblock %}
+
+{% block main %}
+    <p class="small-text">All the drivers that won a championship 1 or more times.</p>
+    <table class="table table-hover" id="table" data-toggle="table"> <!--data-sort-name="id" data-sort-order="asc"-->
+        <thead>
+            <tr>
+                <th data-field="name" data-sortable="true" id="name-toggle">Name</th>
+                <th data-field="championships" data-sortable="true" id="championships-toggle">Championships</th>
+                <th data-field="wins" data-sortable="true" id="wins-toggle">Wins</th>
+                <th data-field="podiums" data-sortable="true" id="podiums-toggle">Podiums</th>
+                <th data-field="poles" data-sortable="true" id="poles-toggle">Poles</th>
+                <th data-field="fastest-laps" data-sortable="true" id="fastest-laps-toggle">Fastest Laps</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for driver in drivers %}
+            <tr>
+                <td id="name">{{ driver["driver"] }}</td>
+                <td id="championships">{{ driver["championships"] }}</td>
+                <td id="wins">{{ driver["wins"] }}</td>
+                <td id="podiums">{{ driver["podiums"] }}</td>
+                <td id="poles">{{ driver["poles"]}}</td>
+                <td id="fastest-laps">{{ driver["fastest_laps"] }}</td>
+                <td id="report">Report an error</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="page-buttons">
+        <button class="page-button">Previous</button>
+        <button class="page-button" id="next">Next</button>
+    </div>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table').bootstrapTable();
+        });
+    </script>
+{% endblock %}

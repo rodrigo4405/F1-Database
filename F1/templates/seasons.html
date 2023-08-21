@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Seasons
+{% endblock %}
+
+{% block main %}
+    <p class="small-text" id="small-text"><strong>[1] </strong> The constructors championship was only introduced in <a class="link" href="#1958">1958</a>.</p>
+    <table class="table table-hover" id="table" data-toggle="table" data-sort-name="year" data-sort-order="desc">
+        <thead>
+            <tr>
+                <th data-field="year" data-sortable="true" id="year-toggle">Year</th>
+                <th data-field="driver" data-sortable="true" id="driver-toggle">Driver's Champion</th>
+                <th data-field="constructor" data-sortable="true" id="constructor-toggle">Constructor's Champion</th>
+                <th data-field="link" data-sortable="false" id="link-toggle">Wikipedia</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for season in seasons %}
+            {% set team_logo = get_logo(season["constructor"]) %}
+            <tr>
+                <td id="{{ season['year'] }}">{{ season["year"] }}</td>
+                <td id="driver">{{ season["driver"] }}</td>
+                {% if season["constructor"] != "NULL" %}
+                <td id="constructors">
+                    {{ season["constructor"] }}{% if season["constructor"] not in ["Mercedes", "Ferrari", "Renault", "McLaren", "McLaren-Ford", "Williams", "Benetton", "Vanwall"] %}<img class="team-logo" id="small-logo" src="{{ team_logo }}" alt="{{ season['constructor'] }} logo">{% elif season["constructor"] in ["Benetton", "Vanwall"] %}<img class="team-logo" id="very-small-logo" src="{{ team_logo }}" alt="{{ season['constructor'] }} logo">{% else %}<img class="team-logo" src="{{ team_logo }}" alt="{{ season['constructor'] }} logo">{% endif %}
+                </td>
+                {% else %}
+                <td id="constructors"><span class="small-ref"><a class="link" href="#small-text"><strong>[1]</strong></a></span></td>
+                {% endif %}
+                <td id="link"><a href="{{ season['url'] }}" style="text-decoration: none">Link</a></td>
+                <td id="report"><a href="/report?page=seasons&id={{ season['year'] }}" id="report">Report an error</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to Bootstrap Table CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+    <!-- Link to jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Link to Bootstrap Table JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#table').bootstrapTable();
+        });
+    </script>
+    <script>
+        const hash = window.location.hash;
+        if (hash && document.getElementById(hash.slice(1))) {
+        document.getElementById(hash.slice(1)).scrollIntoView();
+        document.getElementById(hash.slice(1)).style.backgroundColor = "yellow";
+        }
+    </script>
+{% endblock %}

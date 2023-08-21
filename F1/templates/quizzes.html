@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quizzes
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="report-title" style="color: black">Quizzes</h1>
+        <h5 class="subtitle" style="text-align: left; margin-left: 80px">Some quizzes to test your F1 knowledge</h6>
+    </div>
+    <div class="quiz-grid">
+        <a href="/quizzes/drivers-championship">
+            <button class="quiz-button">
+                <img class="quiz-button-image" src="https://media.formula1.com/image/upload/content/dam/fom-website/manual/Misc/Verstappenbacktobacktitles/verstappen-hero.jpg.transform/9col/image.jpg" alt="">
+                <p class="quiz-title">F1 Champions 1950 - 2022</p>
+                <p class="quiz-subtitle">Can you name every F1 champion from 1950 to 2022</p>
+            </button>
+        </a>
+        <a href="/">
+            <button class="quiz-button">
+                <p class="coming-soon">Coming soon</p>
+                <img class="quiz-button-image" src="https://i.kinja-img.com/gawker-media/image/upload/c_fit,f_auto,g_center,q_60,w_1600/ffccb84ba7dfc922e759d5456a4c4b63.jpg" alt="">
+                <p class="quiz-title">F1 Constructors Champions</p>
+                <p class="quiz-subtitle">Do you know every winner of the Constructors Championship</p>
+            </button>
+        </a>
+    </div>
+{% endblock %}
